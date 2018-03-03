@@ -65,5 +65,36 @@
           poller();
         };
       }
-    ]);
+    ])
+    .directive('wordCountChart', ['$parse', function ($parse) {
+      return {
+        // restrictive to html element
+        restrict: 'E',
+        // replace directive with HTML in template
+        replace: true,
+        template: '<div id="chart"></div>',
+        // gives access to scope variables in the controller
+        link: function (scope, log) {
+          scope.$watch('wordcounts', function(){
+            d3.select('#chart').selectAll('*').remove();
+            var data = scope.wordcounts;
+            for (var word in data) {
+              console.log(word);
+              d3.select('#chart')
+                .append('div')
+                .selectAll('div')
+                .data(word[0])
+                .enter()
+                .append('div')
+                .style('width', function(){
+                  return (data[word][1] + 'px');
+                })
+                .text(function(d){
+                  return data[word][0];
+                });
+            }
+          }, true);
+        }
+      };
+    }]);
 }());
