@@ -10,6 +10,9 @@
       "$http",
       "$timeout",
       function($scope, $log, $http, $timeout) {
+        $scope.submitButtonText = "Submit";
+        $scope.loading = false;
+        $scope.urlerror = false;
         $scope.getResults = function() {
           // get the URL from the input
           var userInput = $scope.url;
@@ -18,8 +21,12 @@
           $http
             .post("/start", { url: userInput })
             .success(function(results) {
+              $scope.urlerror = false;
               $log.log(results);
               getWordCount(results);
+              $scope.wordcounts = null;
+              $scope.loading = true;
+              $scope.submitButtonText = 'Loading...';
             })
             .error(function(error) {
               $log.log(error);
@@ -38,6 +45,8 @@
                   $log.log(data, status);
                 } else if (status === 200) {
                   $log.log(data);
+                  $scope.loading = false;
+                  $scope.submitButtonText = "Submit";
                   $scope.wordcounts = data;
                   $timeout.cancel(timeout);
                   return false;
@@ -46,6 +55,12 @@
                 // until the timeout is cancelled
                 timeout = $timeout(poller, 2000);
               })
+              .error(function(error){
+                $log.log(error);
+                $scope.loading = false;
+                $scope.submitButtonText = "Submit";
+                $scope.urlerror = true;
+              });
           };
           poller();
         };
