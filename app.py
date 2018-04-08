@@ -102,7 +102,7 @@ def get_counts():
 def get_results(job_key):
 
     job = Job.fetch(job_key, connection=conn)
-    print(job.is_finished)
+
     if job.is_finished:
         result = Result.query.filter_by(id=job.result).first()
         results = sorted(
@@ -110,6 +110,7 @@ def get_results(job_key):
             key=operator.itemgetter(1),
             reverse=True
         )[:10]
+        results.append(results[0][1])
         return jsonify(results)
     else:
         return "Nay!", 202
