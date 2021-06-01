@@ -22,7 +22,7 @@ requests==2.18.4
 rq==0.10.0
 six==1.11.0
 SQLAlchemy==1.2.4
-urllib3==1.22
+urllib3==1.26.5
 alembic==0.9.8
 beautifulsoup4==4.6.0
 certifi==2018.1.18
@@ -51,6 +51,6 @@ rq==0.10.0
 six==1.11.0
 socketio==0.0.7
 SQLAlchemy==1.2.4
-urllib3==1.22
+urllib3==1.26.5
 Werkzeug==0.14.1
 wikipedia==1.4.0
